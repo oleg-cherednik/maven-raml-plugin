@@ -1,0 +1,143 @@
+#%RAML 0.8
+---
+title: Title
+mediaType: application/json
+/model:
+  get:
+  post:
+  /find:
+    post:
+  /{modelUuid}:
+    uriParameters:
+      modelUuid:
+        type: string
+        required: true
+    get:
+    put:
+    delete:
+      queryParameters:
+        reason:
+          type: string
+          required: false
+    /metadata:
+      get:
+      post:
+      put:
+      delete:
+        queryParameters:
+          reason:
+            type: string
+            required: false
+    /step:
+      get:
+/project:
+  get:
+  post:
+    body:
+      application/atom+xml:
+    responses:
+      200:
+        body:
+          application/xml:
+  /copy:
+    post:
+  /deleted:
+    get:
+  /{projectId}:
+    uriParameters:
+      projectId:
+        type: number
+        required: true
+    get:
+    put:
+    delete:
+    /analysis:
+      get:
+      post:
+      /deleted:
+        get:
+      /status/{status}:
+        uriParameters:
+          status:
+            type: string
+            required: true
+        get:
+      /tag:
+        get:
+          queryParameters:
+            tagName:
+              type: string
+              required: true
+      /{analysisId}:
+        uriParameters:
+          analysisId:
+            type: number
+            required: true
+        get:
+        put:
+        delete:
+        /rename:
+          put:
+        /tornado:
+          get:
+            queryParameters:
+              field:
+                type: string
+                required: false
+    /details:
+      get:
+    /status/{status}:
+      uriParameters:
+        status:
+          type: string
+          required: true
+      put:
+/step:
+  get:
+  post:
+  /find:
+    post:
+  /{stepUuid}:
+    uriParameters:
+      stepUuid:
+        type: string
+        required: true
+    get:
+    put:
+    delete:
+      queryParameters:
+        reason:
+          type: string
+          required: false
+    /convert/js:
+      post:
+    /inspect:
+      /cells:
+        post:
+      /sheets:
+        get:
+    /metadata:
+      get:
+      post:
+      put:
+      delete:
+        queryParameters:
+          reason:
+            type: string
+            required: false
+    /readonly:
+      get:
+    /status/{status}:
+      uriParameters:
+        status:
+          type: string
+          required: true
+      put:
+    /upload:
+      post:
+        queryParameters:
+          save:
+            type: boolean
+            required: false
+        body:
+          multipart/form-data:

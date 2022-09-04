@@ -1,0 +1,426 @@
+#%RAML 0.8
+---
+title: Title
+mediaType: application/json
+/model:
+  description: |
+    REST end point for model operations
+  get:
+    description: |
+      Retrieve all available models
+    responses:
+      200:
+        description: |
+          not {@code null} list of available models
+  post:
+    description: |
+      Create new with given {@code model} data. Optionally {@code comment} can be specified. This time
+      it uses only and . All other model's parts should be created using other
+      services.
+    queryParameters:
+      comment:
+        type: string
+        required: false
+    responses:
+      200:
+        description: |
+          created
+  /find:
+    post:
+      description: |
+        Retrieve all available models
+      responses:
+        200:
+          description: |
+            not {@code null} list of available models
+  /{modelUuid}:
+    uriParameters:
+      modelUuid:
+        description: |
+          model uuid
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve with given {@code modelUuid}
+      responses:
+        200:
+          description: |
+            with given {@code modelUuid} or {@code null} if model with given {@code modelUuid} is not
+            found
+    put:
+      description: |
+        Update with new {@code model} data. Optionally {@code comment} can be specified.
+      responses:
+        200:
+          description: |
+            updated
+    delete:
+      description: |
+        Delete existed with given {@code modelUuid}. Optionally {@code reason} can be specified.
+      queryParameters:
+        reason:
+          description: |
+            optional reason
+          type: string
+          required: false
+    /metadata:
+      description: |
+        REST end point for model item metadata operations
+      get:
+        description: |
+          Retrieve metadata for given model {@code modelUuid}
+        responses:
+          200:
+            description: |
+              not {@code null} map with metadata
+      post:
+        description: |
+          Add metadata for given model {@code modelUuid}. Optionally {@code comment} can be specified.
+      put:
+        description: |
+          Update metadata for given model {@code modelUuid} with new {@code metadata} values data. Optionally {@code
+          comment} can be specified.
+        responses:
+          200:
+            description: |
+              current metadata for given {@code modelUuid}
+      delete:
+        description: |
+          Delete existed metadata specified in {@code metadata} for given model {@code modelUuid}. Optionally {@code
+          reason} can be specified.
+        queryParameters:
+          reason:
+            description: |
+              optional reason
+            type: string
+            required: false
+    /step:
+      get:
+        description: |
+          Retrieve all available model steps for given {@code modelUuid}.
+        responses:
+          200:
+            description: |
+              not {@code null} list of available models
+/project:
+  description: |
+    REST end point for project operations
+  get:
+    description: |
+      Retrieve all available projects.
+    responses:
+      200:
+        description: |
+          not {@code null} list of available projects
+  post:
+    description: |
+      Create project using given {@code project}.
+    body:
+      application/atom+xml:
+    responses:
+      200:
+        description: |
+          created
+        body:
+          application/xml:
+  /copy:
+    post:
+      description: |
+        Copy project {@code project}.
+  /deleted:
+    get:
+      description: |
+        Retrieve deleted projects
+      responses:
+        200:
+          description: |
+            list of
+  /{projectId}:
+    uriParameters:
+      projectId:
+        displayName: Unique project id
+        description: |
+          Unique project id
+        type: number
+        required: true
+    get:
+      description: |
+        Retrieve project with given {@code projectId}
+      responses:
+        200:
+          description: |
+            object
+    put:
+      description: |
+        Update project with given {@code projectId} with new given {@code project}.
+      responses:
+        200:
+          description: |
+            updated project in
+    delete:
+      description: |
+        Delete project with given {@code projectId}.
+    /analysis:
+      displayName: Project Analysis
+      description: |
+        REST end point for analysis operations
+      get:
+        description: |
+          Retrieve all analyses related to the given {@code projectId}.
+        responses:
+          201:
+            description: |
+              list of not {@code null} list of all analyses
+      post:
+        description: |
+          Add analysis to project with given {@code projectId}.
+        responses:
+          200:
+            description: |
+              object
+      /copy:
+        post:
+          description: |
+            Clone analysis to the given project {@code projectId} based on {@code analysis} data.
+          responses:
+            200:
+              description: |
+                object
+      /deleted:
+        get:
+          description: |
+            Retrieves list of deleted analysis for given {@code projectId}.
+          responses:
+            200:
+              description: |
+                list of that was deleted
+      /status/{status}:
+        uriParameters:
+          status:
+            type: string
+            required: true
+        get:
+          description: |
+            Retrieve all analyses for given {@code projectId} with given {@code status}.
+          responses:
+            200:
+              description: |
+                list of
+      /tag:
+        get:
+          description: |
+            Retrieve all analyses for given {@code projectId} with given {@code tagName}.
+          queryParameters:
+            tagName:
+              description: |
+                tag name
+              type: string
+              required: true
+          responses:
+            200:
+              description: |
+                list of
+      /{analysisId}:
+        uriParameters:
+          analysisId:
+            description: |
+              analysis id
+            type: number
+            required: true
+        get:
+          description: |
+            Get analysis with given {@code analysisId}.
+          responses:
+            200:
+              description: |
+                object
+        put:
+          description: |
+            Update analysis.
+          responses:
+            200:
+              description: |
+                object
+        delete:
+          description: |
+            Delete analysis with given {@code analysisId} for given {@code projectId}.
+        /rename:
+          put:
+            description: |
+              Rename given analysis {@code analysisId} for given {@code projectId}. {@code name} is specified in the body.
+        /tornado:
+          get:
+            description: |
+              Returns tornado plot for given analysis {@code analysisId}. Optionally {@code field} can be specified.
+            queryParameters:
+              field:
+                description: |
+                  field name (optional)
+                type: string
+                required: false
+            responses:
+              200:
+                description: |
+                  the analysis info
+    /details:
+      get:
+        description: |
+          Retrieve details for given {@code projectId}.
+        responses:
+          200:
+            description: |
+              object
+    /status/{status}:
+      uriParameters:
+        status:
+          description: |
+            new status
+          type: string
+          required: true
+      put:
+        description: |
+          Change status to {@code status} for given project {@code projectId}.
+        responses:
+          200:
+            description: |
+              updated project in
+/step:
+  description: |
+    REST end point for model step operations
+  get:
+    description: |
+      Retrieve all model steps with status.
+    responses:
+      200:
+        description: |
+          not {@code null} list of available models
+  post:
+    description: |
+      Create new with given {@code modelStep} data. Optionally {@code comment} can be specified.
+    responses:
+      200:
+        description: |
+          created
+  /find:
+    post:
+  /{stepUuid}:
+    uriParameters:
+      stepUuid:
+        description: |
+          model step uuid
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve with given {@code stepUuid}
+      responses:
+        200:
+          description: |
+            with given {@code stepUuid} or {@code null} if model step with given {@code stepUuid}
+            is not found
+    put:
+      description: |
+        Update with new {@code modelStep} data.
+      responses:
+        200:
+          description: |
+            updated
+    delete:
+      description: |
+        Delete existed with given {@code stepUuid}. Optionally {@code reason} can be specified.
+      queryParameters:
+        reason:
+          description: |
+            optional reason
+          type: string
+          required: false
+    /convert/js:
+      post:
+        responses:
+          200:
+            description: |
+              object with created model step with metadata and without
+              parameters
+              <ul>
+              <li> - new model step was successfuly created</li>
+              <li> - if model step with given {@code stepUuid} is not found</li>
+              <li> - if given model step is not <t>Excel</t> type</li>
+              <li> - in case of error in app part or problems in converter</li>
+              <li><i>header.location</i> - url for retrieve created model step</li>
+              </ul>
+    /inspect:
+      /cells:
+        post:
+          description: |
+            Retrieves content of the given model step {@code stepUuid}.
+      /sheets:
+        get:
+          description: |
+            Retrieves content of the given model step {@code stepUuid}.
+    /metadata:
+      description: |
+        REST end point for model step metadata operations
+      get:
+        description: |
+          Retrieve metadata for given model step {@code stepUuid}
+        responses:
+          200:
+            description: |
+              not {@code null} map with metadata
+      post:
+        description: |
+          Add metadata for given model step {@code stepUuid}. Optionally {@code comment} can be specified.
+      put:
+        description: |
+          Update metadata for given model step {@code stepUuid} with new {@code metadata} values data. Optionally {@code
+          comment} can be specified.
+        responses:
+          200:
+            description: |
+              current metadata for given {@code stepUuid}
+      delete:
+        description: |
+          Delete existed metadata specified in {@code metadata} for given model step {@code stepUuid}. Optionally {@code
+          reason} can be specified.
+        queryParameters:
+          reason:
+            description: |
+              optional reason
+            type: string
+            required: false
+    /readonly:
+      get:
+        description: |
+          Retrieves content of the given model step {@code stepUuid}.
+    /status/{status}:
+      uriParameters:
+        status:
+          description: |
+            new status for model step
+          type: string
+          required: true
+      put:
+        description: |
+          Update status with new {@code modelStep} status data.
+        responses:
+          200:
+            description: |
+              updated
+    /upload:
+      post:
+        description: |
+          Convert given Excel document to the list of and optionally (if {@code save} is {@code true}) save it (given
+          parameters replace all existed parameters for given model step). Saving is possible only if parameters don't have any errors.
+        queryParameters:
+          save:
+            description: |
+              if {@code true}, then save results to database (optionally, default is {@code false})
+            type: boolean
+            required: false
+        body:
+          multipart/form-data:
+        responses:
+          200:
+            description: |
+              not {@code null} list of objects

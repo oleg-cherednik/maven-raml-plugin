@@ -1,0 +1,11 @@
+api:
+  title: aaa
+  baseUri: bbb
+  doc:
+    title: Public
+    content: ${project.description}
+raml:
+  version: '1.0'
+  showExample: true
+  skip:
+    default: true

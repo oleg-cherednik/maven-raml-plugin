@@ -1,0 +1,1636 @@
+#%RAML 0.8
+---
+title: aaa
+baseUri: ccc
+version: ddd
+mediaType: application/json
+documentation:
+  - title: Public
+    content: |
+      Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo
+      inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit
+      aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia
+      dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat
+      voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+      consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem
+      eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum
+      deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui
+      officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore,
+      cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est,
+      omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates
+      repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias
+      consequatur aut perfersendis doloribus asperiores repellat.
+/audit:
+  displayName: Audit
+  description: |
+    REST end point for audit
+  /model/{modelUuid}:
+    uriParameters:
+      modelUuid:
+        type: string
+        required: true
+    get:
+      responses:
+        200:
+          body:
+  /project/{projectId}:
+    uriParameters:
+      projectId:
+        type: number
+        required: true
+    get:
+      responses:
+        200:
+          body:
+  /step/{stepUuid}:
+    uriParameters:
+      stepUuid:
+        type: string
+        required: true
+    get:
+      responses:
+        200:
+          body:
+/auth:
+  displayName: Authentication
+  description: |
+    REST end point for authentication operations
+  /login:
+    post:
+      description: |
+        Login with given username and password {@code auth}
+      body:
+      responses:
+        200:
+          description: |
+            or {@code null} id user with given username is not found
+          body:
+  /logout:
+    post:
+      description: |
+        Logout current user
+      responses:
+        200:
+          body:
+/customtable:
+  displayName: Custom Table
+  description: |
+    REST end point for custom tables
+  get:
+    description: |
+      Returns all available custom tables.
+    responses:
+      200:
+        description: |
+          object with found objects
+          <ul>
+          <li> - at least one custom table was found</li>
+          <li> - no custom tables found</li>
+          </ul>
+        body:
+  post:
+    description: |
+      Add given {@code customTable}.
+    body:
+    responses:
+      200:
+        description: |
+          object with created custom table id in the body
+          <ul>
+          <li><i>status</i> - </li>
+          <li><i>body</i> - created custom table id</li>
+          <li><i>header.location</i> - url for retrieve created custom table</li>
+          </ul>
+        body:
+  /scope/global:
+    get:
+      description: |
+        Return all available custom tables with scope
+      responses:
+        200:
+          description: |
+            object with found objects
+            <ul>
+            <li> - at least one custom table was found</li>
+            <li> - no custom tables found</li>
+            </ul>
+          body:
+  /step/{stepUuid}/parameter/{stepParam}:
+    uriParameters:
+      stepUuid:
+        type: string
+        required: true
+      stepParam:
+        type: string
+        required: true
+    get:
+      description: |
+        Returns all available custom tables for given {@code stepUuid} and {@code stepParam}.
+      responses:
+        200:
+          description: |
+            object with found objects
+            <ul>
+            <li> - at least one custom table was found</li>
+            <li> - no custom tables found</li>
+            </ul>
+          body:
+  /user/{userId}:
+    uriParameters:
+      userId:
+        description: |
+          user is
+        type: string
+        required: true
+    get:
+      description: |
+        Returns all custom tables for given {@code userId} and scope.
+      responses:
+        200:
+          description: |
+            object with found objects
+            <ul>
+            <li> - at least one custom table was found</li>
+            <li> - no custom tables found</li>
+            </ul>
+          body:
+  /{customTableId}:
+    uriParameters:
+      customTableId:
+        description: |
+          custom table id
+        type: number
+        required: true
+    get:
+      description: |
+        Return custom table with given {@code customTableId}.
+      responses:
+        200:
+          description: |
+            object with found objects
+            <ul>
+            <li> - custom table with given id found</li>
+            <li> - no custom tables with given id found</li>
+            </ul>
+          body:
+    put:
+      description: |
+        Update existed custom table with given {@code customTableId} with given {@code customTable} data
+      body:
+      responses:
+        200:
+          description: |
+            <ul>
+            <li> - custom table with given id was updated</li>
+            <li> - custom tables with given id was not found</li>
+            </ul>
+          body:
+    delete:
+      description: |
+        Delete custom table with given {@code customTableId}.
+      responses:
+        200:
+          description: |
+            <ul>
+            <li> - custom table was removed or table with given id was not found</li>
+            <li> - if user without <t>admin</t> role try to remove not own custom table</li>
+            </ul>
+          body:
+/evaluation:
+  displayName: Evaluation
+  description: |
+    REST end point for scenario evaluation operations
+  /job/error/{uuid}:
+    uriParameters:
+      uuid:
+        description: |
+          job uuid
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve job error with given {@code uuid}
+      responses:
+        200:
+          description: |
+            object
+          body:
+  /output:
+    post:
+      description: |
+        Retrieve all available output parameters for given job {@code uuids} grouped by job.
+      body:
+      responses:
+        200:
+          description: |
+            list of grouped by job uuid
+          body:
+  /outputs:
+    post:
+      body:
+      responses:
+        200:
+          body:
+  /rerun:
+    post:
+      description: |
+        Rerun jobs with given {@code uuids}.
+      body:
+      responses:
+        200:
+          description: |
+            list of objects
+          body:
+  /suspend:
+    post:
+      description: |
+        Suspend jobs with given {@code uuid}.
+      body:
+      responses:
+        200:
+          description: |
+            list of current
+          body:
+  /{evaluationId}:
+    uriParameters:
+      evaluationId:
+        description: |
+          evaluation id
+        type: number
+        required: true
+    get:
+      description: |
+        Retrieve evaluation with given {@code evaluationId}.
+      responses:
+        200:
+          description: |
+            object
+          body:
+/files:
+  displayName: Files
+  description: |
+    REST end point for file operations (e.g. download)
+  get:
+    description: |
+      Download file with given {@code path}.
+    queryParameters:
+      path:
+        description: |
+          path
+        type: string
+        required: true
+    responses:
+      200:
+        body:
+/model:
+  displayName: Model
+  description: |
+    REST end point for model operations
+  get:
+    description: |
+      Retrieve all available models
+    responses:
+      200:
+        description: |
+          not {@code null} list of available models
+        body:
+  post:
+    description: |
+      Create new with given {@code model} data. Optionally {@code comment} can be specified. This time
+
+      it uses only and . All other model's parts should be created using other
+      services.
+    body:
+    responses:
+      200:
+        description: |
+          created
+        body:
+  /find:
+    post:
+      description: |
+        Retrieve all available models
+      body:
+      responses:
+        200:
+          description: |
+            not {@code null} list of available models
+          body:
+  /{modelUuid}:
+    uriParameters:
+      modelUuid:
+        description: |
+          model uuid
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve with given {@code modelUuid}
+      responses:
+        200:
+          description: |
+            with given {@code modelUuid} or {@code null} if model with given {@code modelUuid} is not
+            found
+          body:
+    put:
+      description: |
+        Update with new {@code model} data. Optionally {@code comment} can be specified.
+      body:
+      responses:
+        200:
+          description: |
+            updated
+          body:
+    delete:
+      description: |
+        Delete existed with given {@code modelUuid}. Optionally {@code reason} can be specified.
+      queryParameters:
+        reason:
+          description: |
+            optional reason
+          type: string
+          required: false
+      responses:
+        200:
+          body:
+    /metadata:
+      get:
+        description: |
+          Retrieve metadata for given model {@code modelUuid}
+        responses:
+          200:
+            description: |
+              not {@code null} map with metadata
+            body:
+      post:
+        description: |
+          Add metadata for given model {@code modelUuid}. Optionally {@code comment} can be specified.
+        body:
+        responses:
+          200:
+            body:
+      put:
+        description: |
+          Update metadata for given model {@code modelUuid} with new {@code metadata} values data. Optionally {@code
+          comment} can be specified.
+        body:
+        responses:
+          200:
+            description: |
+              current metadata for given {@code modelUuid}
+            body:
+      delete:
+        description: |
+          Delete existed metadata specified in {@code metadata} for given model {@code modelUuid}. Optionally {@code
+          reason} can be specified.
+        queryParameters:
+          reason:
+            description: |
+              optional reason
+            type: string
+            required: false
+        body:
+        responses:
+          200:
+            body:
+    /step:
+      get:
+        description: |
+          Retrieve all available model steps for given {@code modelUuid}.
+        responses:
+          200:
+            description: |
+              not {@code null} list of available models
+            body:
+/project:
+  displayName: Project
+  description: |
+    REST end point for project operations
+  get:
+    description: |
+      Retrieve all available projects.
+    responses:
+      200:
+        description: |
+          sdffffffffdsafsdfs dfsadfffffffffffffffffffff fffffffffffffffffffff
+          fffffffffffffffffffffffffffffffffffff
+
+          sadf
+          saf
+          sad
+          f
+          asfd
+
+
+          asdf
+        body:
+  post:
+    description: |
+      Create project using given {@code project}.
+    body:
+      application/atom+xml:
+    responses:
+      200:
+        description: |
+          created
+        body:
+          application/xml:
+  /copy:
+    post:
+      description: |
+        Copy project {@code project}.
+      body:
+      responses:
+        200:
+          body:
+  /deleted:
+    get:
+      description: |
+        Retrieve deleted projects
+      responses:
+        200:
+          description: |
+            list of
+          body:
+  /{projectId}:
+    uriParameters:
+      projectId:
+        description: |
+          Unique project id
+          {@display Unique project id}
+        type: number
+        pattern: \d+
+        required: true
+        example: 666
+    get:
+      description: |
+        Retrieve project with given {@code projectId}
+      responses:
+        200:
+          description: |
+            object
+          body:
+    put:
+      description: |
+        Update project with given {@code projectId} with new given {@code project}.
+      body:
+      responses:
+        200:
+          description: |
+            updated project in
+          body:
+    delete:
+      description: |
+        Delete project with given {@code projectId}.
+      responses:
+        200:
+          body:
+    /analysis:
+      displayName: Project Analysis
+      description: |
+        REST end point for analysis operations
+      get:
+        description: |
+          Retrieve all analyses related to the given {@code projectId}.
+        responses:
+          201:
+            description: |
+              list of asdf
+              sadf
+              sadf
+
+
+              asdf
+              asdf
+            body:
+      post:
+        description: |
+          Add analysis to project with given {@code projectId}.
+        body:
+        responses:
+          200:
+            description: |
+              object
+            body:
+      /copy:
+        post:
+          description: |
+            Clone analysis to the given project {@code projectId} based on {@code analysis} data.
+          body:
+          responses:
+            200:
+              description: |
+                object
+              body:
+      /deleted:
+        get:
+          description: |
+            Retrieves list of deleted analysis for given {@code projectId}.
+          responses:
+            200:
+              description: |
+                list of that was deleted
+              body:
+      /status/{status}:
+        uriParameters:
+          status:
+            type: string
+            required: true
+        get:
+          description: |
+            Retrieve all analyses for given {@code projectId} with given {@code status}.
+          responses:
+            200:
+              description: |
+                list of
+              body:
+      /tag:
+        get:
+          description: |
+            Retrieve all analyses for given {@code projectId} with given {@code tagName}.
+          queryParameters:
+            tagName:
+              description: |
+                tag name
+              type: string
+              required: true
+          responses:
+            200:
+              description: |
+                list of
+              body:
+      /{analysisId}:
+        uriParameters:
+          analysisId:
+            description: |
+              analysis id
+            type: number
+            required: true
+        get:
+          description: |
+            Get analysis with given {@code analysisId}.
+          responses:
+            200:
+              description: |
+                object
+              body:
+        put:
+          description: |
+            Update analysis.
+          body:
+          responses:
+            200:
+              description: |
+                object
+              body:
+        delete:
+          description: |
+            Delete analysis with given {@code analysisId} for given {@code projectId}.
+          responses:
+            200:
+              body:
+        /rename:
+          put:
+            description: |
+              Rename given analysis {@code analysisId} for given {@code projectId}. {@code name} is specified in the body.
+            body:
+            responses:
+              200:
+                body:
+        /rerun:
+          post:
+            description: |
+              Rerun analysis with given {@code analysisId} for given {@code projectId}.
+            responses:
+              200:
+                description: |
+                  list of objects
+                body:
+        /run:
+          post:
+            description: |
+              Run analysis with given {@code analysisId} for given {@code projectId}.
+            responses:
+              200:
+                description: |
+                  list of object
+                body:
+        /suspend:
+          post:
+            description: |
+              Suspend analysis with given {@code analysisId} for given {@code projectId}.
+            responses:
+              200:
+                description: |
+                  list of objects
+                body:
+        /tornado:
+          get:
+            description: |
+              Returns tornado plot for given analysis {@code analysisId}. Optionally {@code field} can be specified.
+            queryParameters:
+              field:
+                description: |
+                  field name (optional)
+                type: string
+                required: false
+            responses:
+              200:
+                description: |
+                  the analysis info
+                body:
+    /details:
+      get:
+        description: |
+          Retrieve details for given {@code projectId}.
+        responses:
+          200:
+            description: |
+              object
+            body:
+    /playlist:
+      get:
+        description: |
+          Retrieve all available playlists in project
+        responses:
+          200:
+            description: |
+              list of
+            body:
+      post:
+        description: |
+          Create playlist using given {@code project}.
+        body:
+        responses:
+          200:
+            description: |
+              created
+            body:
+      /search/{value}:
+        uriParameters:
+          value:
+            description: |
+              playlist name part
+            type: string
+            required: true
+        get:
+          description: |
+            Retrieve all available playlists with name that contains {@code value}.
+          responses:
+            200:
+              description: |
+                list of
+              body:
+      /{playlistId}:
+        uriParameters:
+          playlistId:
+            description: |
+              playlist id
+            type: number
+            required: true
+        get:
+          description: |
+            Retrieve project with given {@code projectId}
+          responses:
+            200:
+              description: |
+                object
+              body:
+        put:
+          description: |
+            Update playlist with given {@code playlistId} with new given {@code playlist}.
+          body:
+          responses:
+            200:
+              description: |
+                created
+              body:
+        delete:
+          description: |
+            Delete playlist with given {@code playlistId}.
+          responses:
+            200:
+              body:
+        /analysis:
+          get:
+            description: |
+              Retrieve scenarios for given {@code projectId} with given {@code playlistId}.
+            queryParameters:
+              playlistId:
+                description: |
+                  playlist id
+                type: number
+                required: true
+            responses:
+              200:
+                description: |
+                  list of objects
+                body:
+        /scenario:
+          get:
+            description: |
+              Retrieve scenarios for given {@code projectId} with given {@code playlistId}.
+            responses:
+              200:
+                description: |
+                  list of objects
+                body:
+    /scenario:
+      get:
+        description: |
+          Retrieve available scenarios for given {@code projectId}.
+        responses:
+          200:
+            description: |
+              list of
+            body:
+      post:
+        description: |
+          Create scenario base on {@code scenario} data for given project {@code projectId}.
+        body:
+        responses:
+          200:
+            description: |
+              object
+            body:
+      /copy:
+        post:
+          description: |
+            Clone scenario to the given project {@code projectId} based on {@code scenario} data.
+          body:
+          responses:
+            200:
+              body:
+      /deleted:
+        get:
+          description: |
+            Retrieves deleted scenarios for given {@code projectId}.
+          responses:
+            200:
+              description: |
+                list of
+              body:
+      /status/{status}:
+        uriParameters:
+          status:
+            description: |
+              status
+            type: string
+            required: true
+        get:
+          description: |
+            Retrieve available scenarios for given {@code projectId} with given {@code status}.
+          responses:
+            200:
+              description: |
+                list of
+              body:
+      /tag:
+        get:
+          description: |
+            Retrieve scenarios for given {@code projectId} with given {@code tagName}.
+          queryParameters:
+            tagName:
+              description: |
+                tag name
+              type: string
+              required: true
+          responses:
+            200:
+              description: |
+                list of objects
+              body:
+      /{scenarioId}:
+        uriParameters:
+          scenarioId:
+            description: |
+              scenario id
+            type: number
+            required: true
+        get:
+          description: |
+            Retrieve scenario with {@code scenarioId} for given {@code projectId}.
+          responses:
+            200:
+              description: |
+                object
+              body:
+        put:
+          description: |
+            Update scenario with given {@code scenarioId} for given {@code projectId} with {@code scenario} data.
+          body:
+          responses:
+            200:
+              body:
+        delete:
+          description: |
+            Delete scenario with given {@code scenarioId} for given {@code projectId}. {@code force} flag allows to delete forcibly.
+          queryParameters:
+            force:
+              description: |
+                flag for forced removal
+              default: false
+              type: boolean
+              required: false
+          responses:
+            200:
+              body:
+        /rename:
+          put:
+            description: |
+              Rename given scenario {@code scenarioId} for given {@code projectId}. {@code name} is specified in the body.
+            body:
+            responses:
+              200:
+                body:
+        /rerun:
+          post:
+            description: |
+              Rerun scenarios with given {@code scenarioId} for given {@code projectId}.
+            responses:
+              200:
+                description: |
+                  object
+                body:
+        /run:
+          post:
+            description: |
+              Run scenarios with given {@code scenarioId} for given {@code projectId}.
+            responses:
+              200:
+                description: |
+                  object
+                body:
+        /suspend:
+          post:
+            description: |
+              Suspend scenarios with given {@code scenarioId} for given {@code projectId}.
+            responses:
+              200:
+                description: |
+                  object
+                body:
+    /status/{status}:
+      uriParameters:
+        status:
+          description: |
+            new status
+          type: string
+          required: true
+      put:
+        description: |
+          Change status to {@code status} for given project {@code projectId}.
+        responses:
+          200:
+            description: |
+              updated project in
+            body:
+/role:
+  displayName: Role
+  description: |
+    REST end point for role operations
+  get:
+    description: |
+      Retrieve list of available roles
+    responses:
+      200:
+        description: |
+          list of objects
+        body:
+  /usertypes:
+    get:
+      description: |
+        Retrieve list of available user types and their permissions
+      responses:
+        200:
+          body:
+/services:
+  /project/{projectId}:
+    uriParameters:
+      projectId:
+        description: |
+          project id
+        type: number
+        required: true
+    /file:
+      get:
+        description: |
+          GET /services/project/{projectId}/file --> Get file list of project with given {@code projectId}.
+        responses:
+          200:
+            description: |
+              list of
+            body:
+      post:
+        description: |
+          POST /services/project/{projectId}/file --> Save file to project with given {@code projectId} and {@code notes}.
+        queryParameters:
+          file:
+            description: |
+              file
+            type: string
+            required: true
+          notes:
+            description: |
+              notes to file
+            default:
+            type: string
+            required: false
+        responses:
+          200:
+            body:
+      /{UUID}:
+        uriParameters:
+          UUID:
+            type: string
+            required: true
+        get:
+          description: |
+            GET /services/project/{projectId}/file/{uuid} --> Get project file with given {@code projectId} and {@code UUID}.
+          responses:
+            200:
+              body:
+        post:
+          description: |
+            POST /services/project/{projectId}/file/{uuid} --> Update file in project.
+          queryParameters:
+            file:
+              type: string
+              required: true
+            notes:
+              description: |
+                notes
+              default:
+              type: string
+              required: false
+          responses:
+            200:
+              body:
+        delete:
+          description: |
+            DELETE /services/project/{projectId}/file/{uuid} --> Remove file from project by {@code projectId} and {@code UUID}.
+          responses:
+            200:
+              body:
+    /template:
+      get:
+        description: |
+          Retrieve all PUBLISHED templates for given {@code projectId}.
+        responses:
+          200:
+            description: |
+              not {@code null} list of available templates
+            body:
+      /default:
+        get:
+          description: |
+            Retrieve default template for given {@code projectId}.
+          responses:
+            200:
+              description: |
+                available template
+              body:
+  /step/{stepUuid}/template:
+    uriParameters:
+      stepUuid:
+        description: |
+          modelStep uuid
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve all available templates for given {@code stepUuid}.
+      responses:
+        200:
+          description: |
+            not {@code null} list of available templates
+          body:
+    /published:
+      get:
+        description: |
+          Retrieve PUBLISHED templates for given {@code modelStepUuid}.
+        responses:
+          200:
+            description: |
+              not {@code null} list of available templates
+            body:
+  /template:
+    get:
+      description: |
+        Retrieve all available templates.
+      responses:
+        200:
+          description: |
+            not {@code null} list of available templates
+          body:
+    post:
+      description: |
+        Create template using given {@code template}.
+      body:
+      responses:
+        200:
+          description: |
+            created
+          body:
+    /{templateId}:
+      uriParameters:
+        templateId:
+          description: |
+            template id
+          type: number
+          required: true
+      get:
+        description: |
+          Retrieve details for given {@code templateId}.
+        responses:
+          200:
+            description: |
+              object
+            body:
+      put:
+        description: |
+          Update template with given {@code templateId} with new given {@code template}.
+        body:
+        responses:
+          200:
+            description: |
+              updated template in
+            body:
+  /user:
+    /active:
+      get:
+        description: |
+          Retrieve active users.
+        responses:
+          200:
+            description: |
+              list of
+            body:
+    /inactive:
+      get:
+        description: |
+          Retrieve inactive users.
+        responses:
+          200:
+            description: |
+              list of
+            body:
+    /{userId}:
+      uriParameters:
+        userId:
+          description: |
+            user id
+          type: string
+          required: true
+      /activate:
+        put:
+          description: |
+            Activate user with given {@code userId}.
+          responses:
+            200:
+              body:
+      /deactivate:
+        put:
+          description: |
+            Deactivate user with given {@code userId}.
+          responses:
+            200:
+              body:
+  /workspace:
+    get:
+      description: |
+        Retrieve all available collaboration workspaces
+      responses:
+        200:
+          description: |
+            list of
+          body:
+    post:
+      description: |
+        Create workspace using given {@code workspaceDTO}.
+      body:
+      responses:
+        200:
+          description: |
+            created
+          body:
+    /user:
+      get:
+        description: |
+          Retrieve all available collaboration workspaces available for current user
+        responses:
+          200:
+            description: |
+              list of
+            body:
+    /{workspaceId}:
+      uriParameters:
+        workspaceId:
+          description: |
+            workspace id
+          type: number
+          required: true
+      get:
+        description: |
+          Retrieves workspace using given {@code workspaceId}.
+        responses:
+          200:
+            description: |
+              retrieved
+            body:
+      delete:
+        description: |
+          Delete workspace with given {@code workspaceId}.
+        responses:
+          200:
+            body:
+/step:
+  displayName: Step
+  description: |
+    REST end point for model step operations
+  get:
+    description: |
+      Retrieve all model steps with status.
+    responses:
+      200:
+        description: |
+          not {@code null} list of available models
+        body:
+  post:
+    description: |
+      Create new with given {@code modelStep} data. Optionally {@code comment} can be specified.
+    body:
+    responses:
+      200:
+        description: |
+          created
+        body:
+  /find:
+    post:
+      body:
+      responses:
+        200:
+          body:
+  /{stepUuid}:
+    uriParameters:
+      stepUuid:
+        description: |
+          model step uuid
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve with given {@code stepUuid}
+      responses:
+        200:
+          description: |
+            with given {@code stepUuid} or {@code null} if model step with given {@code stepUuid}
+            is not found
+          body:
+    put:
+      description: |
+        Update with new {@code modelStep} data.
+      body:
+      responses:
+        200:
+          description: |
+            updated
+          body:
+    delete:
+      description: |
+        Delete existed with given {@code stepUuid}. Optionally {@code reason} can be specified.
+      queryParameters:
+        reason:
+          description: |
+            optional reason
+          type: string
+          required: false
+      responses:
+        200:
+          body:
+    /convert/js:
+      post:
+        responses:
+          200:
+            description: |
+              object with created model step with metadata and without
+              parameters
+              <ul>
+              <li> - new model step was successfuly created</li>
+              <li> - if model step with given {@code stepUuid} is not found</li>
+              <li> - if given model step is not <t>Excel</t> type</li>
+              <li> - in case of error in part or problems in converter</li>
+              <li><i>header.location</i> - url for retrieve created model step</li>
+              </ul>
+            body:
+    /input:
+      get:
+        description: |
+          Retrieve input parameters for given model step {@code stepUuid}.
+        responses:
+          200:
+            description: |
+              list of
+            body:
+    /inspect:
+      /cells:
+        post:
+          description: |
+            Retrieves content of the given model step {@code stepUuid}.
+          body:
+          responses:
+            200:
+              body:
+      /sheets:
+        get:
+          description: |
+            Retrieves content of the given model step {@code stepUuid}.
+          responses:
+            200:
+              body:
+    /item:
+      displayName: Item
+      description: |
+        REST end point for model item operations
+      get:
+        description: |
+          Gets model item with given model step {@code stepUuid}.
+        responses:
+          200:
+            description: |
+              the model step input parameters
+            body:
+      /{itemId}:
+        uriParameters:
+          itemId:
+            description: |
+              model item id
+            type: string
+            required: true
+        get:
+          description: |
+            Retrieve content of given model item {@code itemId} for given model step {@code stepUuid}.
+          responses:
+            200:
+              body:
+    /metadata:
+      get:
+        description: |
+          Retrieve metadata for given model step {@code stepUuid}
+        responses:
+          200:
+            description: |
+              not {@code null} map with metadata
+            body:
+      post:
+        description: |
+          Add metadata for given model step {@code stepUuid}. Optionally {@code comment} can be specified.
+        body:
+        responses:
+          200:
+            body:
+      put:
+        description: |
+          Update metadata for given model step {@code stepUuid} with new {@code metadata} values data. Optionally {@code
+          comment} can be specified.
+        body:
+        responses:
+          200:
+            description: |
+              current metadata for given {@code stepUuid}
+            body:
+      delete:
+        description: |
+          Delete existed metadata specified in {@code metadata} for given model step {@code stepUuid}. Optionally {@code
+          reason} can be specified.
+        queryParameters:
+          reason:
+            description: |
+              optional reason
+            type: string
+            required: false
+        body:
+        responses:
+          200:
+            body:
+    /output:
+      get:
+        description: |
+          Retrieve output parameters for given model step {@code stepUuid}.
+        responses:
+          200:
+            description: |
+              list of
+            body:
+      /{paramId}:
+        uriParameters:
+          paramId:
+            type: number
+            required: true
+        get:
+          responses:
+            200:
+              body:
+    /parameter:
+      get:
+        description: |
+          Retrieve all available model steps parameters for given {@code stepUuid}. To
+        responses:
+          200:
+            description: |
+              object with found objects
+              <ul>
+              <li> - at least one parameter was found</li>
+              <li> - no parameters for given model step were found</li>
+              </ul>
+            body:
+      post:
+        description: |
+          Add new {@code parameters} to the given {@code stepUuid}.
+        body:
+        responses:
+          200:
+            description: |
+              object with successfully created parameters
+              <ul>
+              <li> - all given parameters were successfully created</li>
+              <li> - if no parameters in the body specified</li>
+              <li> - in case of error in part</li>
+              <li><i>header.location</i> - url to retrieve first created parameter in the response list (if any)</li>
+              </ul>
+            body:
+      put:
+        description: |
+          Update existed model step parameters with new {@code parameters} data for given {@code stepUuid}. If {@link
+          ModelStepParameterDTO#metadata} is empty, then all existed metadata will be removed for this parameter.
+        body:
+        responses:
+          200:
+            description: |
+              object with successfully updated parameters id
+              <ul>
+              <li> - all given parameters were successfully updated</li>
+              <li> - if no parameters in the body specified</li>
+              <li> - in case of error in part</li>
+              <li><i>header.location</i> - url to retrieve first updated parameter in the response list (if any)</li>
+              </ul>
+            body:
+      delete:
+        description: |
+          Delete existed multiple for given {@code stepUuid} and {@code paramIds}. Optionally
+          {@code reason} can be specified.
+        queryParameters:
+          reason:
+            description: |
+              optional reason
+            type: string
+            required: false
+        body:
+        responses:
+          200:
+            body:
+      /{paramId}:
+        uriParameters:
+          paramId:
+            type: number
+            required: true
+        get:
+          description: |
+            Retrieve for given {@code stepUuid} and given {@code paramId}
+          responses:
+            200:
+              description: |
+                object with found object
+                <ul>
+                <li> - model step parameter with given id for given step found</li>
+                <li> - no model step parameter with given id found</li>
+                </ul>
+              body:
+    /readonly:
+      get:
+        description: |
+          Retrieves content of the given model step {@code stepUuid}.
+        responses:
+          200:
+            body:
+              application/octet-stream:
+    /status/{status}:
+      uriParameters:
+        status:
+          description: |
+            new status for model step
+          type: string
+          required: true
+      put:
+        description: |
+          Update status with new {@code modelStep} status data.
+        responses:
+          200:
+            description: |
+              updated
+            body:
+    /upload:
+      post:
+        description: |
+          Convert given Excel document to the list of and optionally (if {@code save} is {@code true}) save it (given
+          parameters replace all existed parameters for given model step). Saving is possible only if parameters don't have any errors.
+        queryParameters:
+          save:
+            description: |
+              if {@code true}, then save results to database (optionally, default is {@code false})
+            type: boolean
+            required: false
+        body:
+          multipart/form-data:
+        responses:
+          200:
+            description: |
+              not {@code null} list of objects
+            body:
+/tag:
+  displayName: Tag
+  description: |
+    REST end point for tag operations
+  get:
+    description: |
+      Retrieve all available tags
+    responses:
+      200:
+        description: |
+          list of
+        body:
+  /analysis/{analysisId}:
+    uriParameters:
+      analysisId:
+        description: |
+          analysis id
+        type: number
+        required: true
+    get:
+      description: |
+        Retrieve tags for given {@code analysisId}.
+      responses:
+        200:
+          description: |
+            list of
+          body:
+  /scenario/{scenarioId}:
+    uriParameters:
+      scenarioId:
+        description: |
+          scenario id
+        type: number
+        required: true
+    get:
+      description: |
+        Retrieve tags for given {@code scenarioId}.
+      responses:
+        200:
+          description: |
+            list of
+          body:
+  /search/{value}:
+    uriParameters:
+      value:
+        description: |
+          tag name part
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve all available tas with name tag name that contains {@code value}.
+      responses:
+        200:
+          description: |
+            list of
+          body:
+/user:
+  displayName: User
+  description: |
+    REST end point for user operations
+  get:
+    description: |
+      Retrieve all users.
+    responses:
+      200:
+        description: |
+          list of
+        body:
+  post:
+    description: |
+      Create user based on given {@code userDTO}.
+    body:
+    responses:
+      200:
+        body:
+  /current:
+    get:
+      description: |
+        Retrieve current user
+      responses:
+        200:
+          description: |
+            object
+          body:
+  /{userId}:
+    uriParameters:
+      userId:
+        description: |
+          user id
+        type: string
+        required: true
+    get:
+      description: |
+        Retrieve user with given {@code userId}.
+      responses:
+        200:
+          description: |
+            object
+          body:
+    put:
+      description: |
+        Update user with {@code userId} base ond given {@code userDTO}. {@code user.userId} will be replaced with given
+        {@code userId}.
+      body:
+      responses:
+        200:
+          body:
+/usergroup:
+  displayName: User Group
+  description: |
+    REST end point for user group operations
+  get:
+    description: |
+      Retrieve all available user groups.
+    responses:
+      200:
+        description: |
+          list of
+        body:
+  post:
+    description: |
+      Create user group based on given {@code userGroup}.
+    body:
+    responses:
+      200:
+        description: |
+          created object
+        body:
+  /assignment:
+    get:
+      description: |
+        Retrieve all user groups available for current user.
+      responses:
+        200:
+          description: |
+            list of
+          body:
+  /{userGroupId}:
+    uriParameters:
+      userGroupId:
+        description: |
+          user group id
+        type: number
+        required: true
+    get:
+      description: |
+        Retrieve user group with given {@code userGroupId}.
+      responses:
+        200:
+          description: |
+            object
+          body:
+    put:
+      description: |
+        Update user group with {@code userGroupId} base ond given {@code userGroup}.
+      body:
+      responses:
+        200:
+          description: |
+            updated object
+          body:
+    delete:
+      description: |
+        Delete user group with given {@code userGroupId}
+      responses:
+        200:
+          body:
+/version:
+  get:
+    responses:
+      200:
+        body:
+/workspace/{workspaceId}:
+  uriParameters:
+    workspaceId:
+      type: string
+      required: true
+  put:
+    description: |
+      Update workspace with given {@code workspaceId} with new given {@code workspace}.
+    body:
+    responses:
+      200:
+        description: |
+          updated workspace in
+        body:
